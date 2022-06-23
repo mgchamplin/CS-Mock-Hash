@@ -1,5 +1,6 @@
 // This allows us to use the bcrypt algorithm in our Node.js project
 const bcrypt = require('bcrypt')
+const salt_rounds = 10;
 
 // This allows us to read from the terminal
 const readlineSync = require('readline-sync')
@@ -37,14 +38,18 @@ checkPassword = async (username, plaintextPassword) => {
 }
 
 hashPassword = async (username, password) => {
-    // TODO: Make sure to delete this console.log once you're done implementing the function!
-    console.log('\nUh-oh, hashPassword is not yet implemented. 😢')
+    console.log("HASH PASSWORD")
 
     // TODO: Make the password hash using bcrypt
+    let hashedpwd = await bcrypt.hash(password, salt_rounds);
 
-    // TODO: Add the user and password hash to the global store object
+    console.log("PASSWORD = " + password + "  Hashed = " + hashedpwd)
 
-    // TODO: Print a status update including the username and password hash
+    // Add the user and password hash to the global store object
+    globalStore[username] = hashedpwd;
+
+    // Print a status update including the username and password hash
+    console.log("User " + username +  " added to the database")
 }
 
 
@@ -64,6 +69,7 @@ createUser = async () => {
         console.log(`❌ Sorry, but there is already a user called ${username}\n`)
     }
     else {
+        console.log("Processing createUser")
         // If the user is new, prompt them for a password
         let password = readlineSync.question(`What is the password for ${username}? `)
 
