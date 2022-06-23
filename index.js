@@ -16,19 +16,21 @@ let globalStore = {}
 
 // function for checking a password
 checkPassword = async (username, plaintextPassword) => {
-    // TODO: Make sure to delete this console.log once you're done implementing the function!
-    console.log('\n Uh-oh, checkPassword is not yet implemented. 😢')
+    
     // Ensure global store contains the user 
     // (this is a quick way to check if an object contains a key)
     if (globalStore[username]) {
+        console.log("Found user " + username)
         // TODO: Use bcrypt's compare methof to compare a plaintext password to a password hash
 
-        // TODO: The result variable is a boolean. True means the user was valid. Take action accordingly.
+        console.log("HASH PWD is " + globalStore[username])
+
+        let result = await bcrypt.compareSync(plaintextPassword, globalStore[username])
         if (result) {
-            // TODO: Display message for valid credentials
+            console.log("PASWORD MATCH")
         }
         else {
-            // TODO: Display message for invalid credentials
+            console.log("PASSWORD DID NOT MATCH")
         }
     }
     else {
@@ -51,10 +53,6 @@ hashPassword = async (username, password) => {
     // Print a status update including the username and password hash
     console.log("User " + username +  " added to the database")
 }
-
-
-
-
 
 /* 
 * CODE BELOW IS PROVIDED AND DOESN'T NEED TO BE ALTERED 
@@ -113,6 +111,9 @@ programLoop = async () => {
     while (true) {
         let action = readlineSync.question(`\nWhat action would you like to do? (type 'help' for options) `)
         switch (action.toLowerCase()) {
+            case 'cry':
+                console.log("BOO HOOOOOO!")
+                break;
             case 'view':
                 await viewStore()
                 break
